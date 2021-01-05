@@ -1,0 +1,43 @@
+.root {
+    -fx-background-color: #222222;
+}
+
+#games_container {
+    -fx-background-color: #222222;
+}
+
+#lbl_title {
+    -fx-text-fill: white;
+    -fx-font-family: "Arcade Normal";
+    -fx-font-size: 30px;
+}
+
+#lbl_author {
+    -fx-text-fill: #a4a4a4;
+    -fx-font-family: "Arcade Normal";
+    -fx-font-size: 10px;
+}
+
+#scroll, #scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar > .track {
+    -fx-background-color: #262626;
+}
+
+.scroll-bar > .thumb {
+    -fx-background-color: #101010;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+}
+
+.scroll-bar > .decrement-button,
+.scroll-bar > .increment-button {
+    -fx-background-color: #262626;
+}
+
+.scroll-bar > .decrement-button > .decrement-arrow,
+.scroll-bar > .increment-button > .increment-arrow {
+    -fx-background-color: white;
+}
