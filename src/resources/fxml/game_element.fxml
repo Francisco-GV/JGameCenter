@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="root" fx:id="root" prefHeight="150.0" prefWidth="150.0" stylesheets="@../css/game_element_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <Label fx:id="lblTitle" layoutX="14.0" layoutY="119.0" text="&lt;Title&gt;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
+   <Label id="lbl_description" fx:id="lblAbout" alignment="CENTER" contentDisplay="CENTER" layoutX="108.0" layoutY="14.0" prefHeight="15.0" prefWidth="15.0" text="?" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+</AnchorPane>

@@ -1,0 +1,29 @@
+#root {
+    -fx-border-style: solid;
+    -fx-border-color: white;
+    -fx-border-width: 3px;
+    -fx-cursor: hand;
+}
+
+#root:hover {
+    -fx-border-color: #8f2a2a;
+    -fx-border-width: 3px;
+}
+
+#root > .label {
+    -fx-font-family: "Arcade Normal";
+    -fx-text-fill: white;
+}
+
+#lbl_description {
+    -fx-background-color: rgba(0, 0, 0, 0.5);
+    -fx-background-radius: 50%;
+    -fx-border-radius: 50%;
+
+    -fx-pref-width: 25px;
+    -fx-pref-height: 25px;
+}
+
+#lbl_description:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.8);
+}
