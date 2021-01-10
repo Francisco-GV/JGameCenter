@@ -1,7 +1,9 @@
 package com.frank.jgamecenter;
 
-import com.frank.jgamecenter.games.Dodger;
-import com.frank.jgamecenter.games.Game;
+import com.frank.jgamecenter.games.DodgerGame;
+import com.frank.jgamecenter.games.Memory;
+import com.frank.jgamecenter.games.SnakeGame;
+import com.frank.jgamecenter.games.resources.Game;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JGameCenter extends Application {
+    public static final String APP_TITLE = "JGameCenter";
     private List<Game> gameList;
 
     @Override
@@ -23,10 +26,9 @@ public class JGameCenter extends Application {
 
         instance = this;
         gameList = new ArrayList<>();
-
-        for (int i = 1; i <= 50; i++) {
-            gameList.add(new Dodger());
-        }
+        gameList.add(new DodgerGame());
+        gameList.add(new Memory());
+        gameList.add(new SnakeGame());
     }
 
     @Override
@@ -37,11 +39,10 @@ public class JGameCenter extends Application {
         controller.setPrimaryStage(primaryStage);
 
         Scene scene = new Scene(parent);
-        primaryStage.setTitle("JGameCenter");
+        primaryStage.setTitle(APP_TITLE);
         primaryStage.getIcons().addAll(
                 new Image(getClass().getResourceAsStream("/resources/images/game-controller-24x24.png")),
-                new Image(getClass().getResourceAsStream("/resources/images/game-controller-32x32.png"))
-        );
+                new Image(getClass().getResourceAsStream("/resources/images/game-controller-32x32.png")));
         primaryStage.setScene(scene);
         primaryStage.show();
         primaryStage.centerOnScreen();
