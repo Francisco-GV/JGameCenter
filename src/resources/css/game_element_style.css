@@ -15,6 +15,11 @@
     -fx-text-fill: white;
 }
 
+#lbl_title {
+    -fx-font-size: 15;
+    -fx-effect: dropshadow(gaussian, black, 10, 0.5, 0, 0);
+}
+
 #lbl_description {
     -fx-background-color: rgba(0, 0, 0, 0.5);
     -fx-background-radius: 50%;
