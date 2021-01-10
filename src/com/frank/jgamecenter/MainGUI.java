@@ -1,6 +1,8 @@
 package com.frank.jgamecenter;
 
-import com.frank.jgamecenter.games.Game;
+import com.frank.jgamecenter.games.resources.Game;
+
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -28,7 +30,6 @@ import java.io.InputStream;
 
 public class MainGUI {
     @FXML private AnchorPane menuPane;
-    @FXML private Canvas currentCanvas;
     @FXML private FlowPane gamesContainer;
 
     private Stage primaryStage;
@@ -41,6 +42,9 @@ public class MainGUI {
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        primaryStage.sceneProperty().addListener(
+                (obs, old, newScene) -> primaryStage.setResizable(newScene.getRoot() == menuPane)
+        );
     }
 
     private Region createGameElement(Game game) throws IOException {
@@ -50,11 +54,16 @@ public class MainGUI {
     }
 
     private void changeToCanvas(Canvas canvas) {
-        primaryStage.setScene(new Scene(new AnchorPane(canvas)));
+        canvas.setFocusTraversable(true);
+        canvas.requestFocus();
+        Platform.runLater(() -> {
+            primaryStage.setScene(new Scene(new Group(canvas)));
+            primaryStage.centerOnScreen();
+        });
     }
 
     private void changeToMenu() {
-        primaryStage.setScene(new Scene(menuPane));
+        Platform.runLater(() -> primaryStage.setScene(new Scene(menuPane)));
     }
 
     public class GameElement {
@@ -74,6 +83,7 @@ public class MainGUI {
             lblTitle.setText(game.getName());
             Tooltip tooltip = new Tooltip(game.getDescription());
             tooltip.setShowDelay(Duration.millis(10));
+            tooltip.setShowDuration(Duration.INDEFINITE);
             lblAbout.setTooltip(tooltip);
 
             if (game.getThumbnail() != null) {
@@ -85,6 +95,7 @@ public class MainGUI {
 
         @FXML private void start() {
             changeToCanvas(game.getCanvas());
+            primaryStage.setTitle(JGameCenter.APP_TITLE + " - " + game.getName());
             game.start();
         }
 
