@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="menuPane" prefHeight="460.0" prefWidth="780.0" stylesheets="@../css/main_gui_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.frank.jgamecenter.MainGUI">
+<AnchorPane fx:id="mainMenuPane" prefHeight="460.0" prefWidth="780.0" stylesheets="@../css/main_gui_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.frank.jgamecenter.MainGUI">
    <Label id="lbl_title" layoutX="14.0" layoutY="45.0" text="JGameCenter">
       <font>
          <Font name="Arcade Normal" size="30.0" />
@@ -17,6 +17,6 @@
       </font>
    </Label>
    <ScrollPane id="scroll" fitToWidth="true" hbarPolicy="NEVER" layoutY="92.0" prefHeight="368.0" prefWidth="780.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
-      <FlowPane id="games_container" fx:id="gamesContainer" alignment="TOP_CENTER" columnHalignment="CENTER" hgap="5.0" rowValignment="TOP" vgap="5.0" />
+      <FlowPane id="games_container" fx:id="gamesListContainer" alignment="TOP_CENTER" columnHalignment="CENTER" hgap="5.0" rowValignment="TOP" vgap="5.0" />
    </ScrollPane>
 </AnchorPane>
