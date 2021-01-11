@@ -1,7 +1,7 @@
 package com.frank.jgamecenter.games;
 
 import com.frank.jgamecenter.games.resources.Element;
-import com.frank.jgamecenter.games.resources.Game;
+import com.frank.jgamecenter.games.resources.GraphicGame;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -9,13 +9,12 @@ import javafx.scene.input.KeyEvent;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class DodgerGame extends Game {
+public class DodgerGame extends GraphicGame {
     private double width;
     private double height;
 
     private List<Obstacle> obstacleList;
     private Spacecraft spacecraft;
-
 
     private boolean toLeft = false;
     private boolean toRight = false;
@@ -35,7 +34,7 @@ public class DodgerGame extends Game {
     public void init() {
         totalLives = 5;
         lives = totalLives;
-        getCanvas().addEventHandler(KeyEvent.KEY_PRESSED, evt -> {
+        getGameNode().addEventHandler(KeyEvent.KEY_PRESSED, evt -> {
             KeyCode code = evt.getCode();
             if (code == KeyCode.LEFT || code == KeyCode.A) {
                 if (spacecraft.x - spacecraft.verticalSpeed > 0) {
@@ -50,7 +49,7 @@ public class DodgerGame extends Game {
             }
         });
 
-        getCanvas().addEventHandler(KeyEvent.KEY_RELEASED, evt -> {
+        getGameNode().addEventHandler(KeyEvent.KEY_RELEASED, evt -> {
             switch (evt.getCode()) {
                 case LEFT, A    -> toLeft = false;
                 case RIGHT, D   -> toRight = false;
@@ -64,11 +63,16 @@ public class DodgerGame extends Game {
 
         spacecraft = new Spacecraft();
 
-        imgBackground   = loadImage("/resources/images/dodger/space-galaxy-background.jpg");
+        imgBackground   = loadImage("/resources/images/dodger/space_pixel_background.png");
         imgHeart        = loadImage("/resources/images/dodger/heart.png", 32);
         imgHeartEmpty   = loadImage("/resources/images/dodger/heart_empty.png", 32);
         imgSpacecraft   = loadImage("/resources/images/dodger/spacecraft.png", 64);
         imgObstacle     = loadImage("/resources/images/dodger/asteroid.png", 64);
+    }
+
+    @Override
+    public void restart() {
+        init();
     }
 
     private void generateObstacle() {
@@ -162,10 +166,10 @@ public class DodgerGame extends Game {
         public Spacecraft() {
             this.width = 64;
             this.height = 64;
-            this.x = DodgerGame.this.width / 2 - this.width / 2;
-            this.y = DodgerGame.this.height - this.height - 25;
+            this.x = (int) (DodgerGame.this.width / 2 - this.width / 2);
+            this.y = (int) (DodgerGame.this.height - this.height - 25);
 
-            this.verticalSpeed = 6.5;
+            this.verticalSpeed = 6;
         }
     }
 
@@ -174,5 +178,8 @@ public class DodgerGame extends Game {
                 Several asteroids fall from the 
                 top of the screen, and the user 
                 must avoid them.""", loadThumbnail("dodger.png"));
+
+        g.getCanvas().setWidth(900);
+        g.getCanvas().setHeight(640);
     }
 }
