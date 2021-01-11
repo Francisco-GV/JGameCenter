@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox id="root" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="240.0" spacing="15.0" stylesheets="@../css/in_game_menu_style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label id="pause_title" cache="true" text="Pause">
+         <VBox.margin>
+            <Insets bottom="35.0" />
+         </VBox.margin>
+         <effect>
+            <DropShadow color="BLUEVIOLET" height="0.0" offsetX="-3.0" offsetY="3.0" radius="0.0" spread="1.0" width="0.0">
+               <input>
+                  <DropShadow color="#33aad6" height="1.0" offsetX="3.0" offsetY="-2.0" radius="0.0" spread="1.0" width="0.0" />
+               </input>
+            </DropShadow>
+         </effect>
+      </Label>
+      <Button fx:id="btnResume" mnemonicParsing="false" text="Continue" />
+      <Button fx:id="btnRestart" mnemonicParsing="false" text="Restart" />
+      <Button fx:id="btnExit" mnemonicParsing="false" text="Back to menu" />
+   </children>
+</VBox>
