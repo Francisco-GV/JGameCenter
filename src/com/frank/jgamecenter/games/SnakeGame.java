@@ -1,7 +1,7 @@
 package com.frank.jgamecenter.games;
 
+import com.frank.jgamecenter.games.resources.GraphicGame;
 import com.frank.jgamecenter.games.resources.Element;
-import com.frank.jgamecenter.games.resources.Game;
 
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class SnakeGame extends Game {
+public class SnakeGame extends GraphicGame {
     private Snake snake;
     private Food food;
     private Direction currentDirection;
@@ -59,10 +59,10 @@ public class SnakeGame extends Game {
         snakeDead = loadImage("/resources/images/snake/snake_head_dead.png", 32);
         apple     = loadImage("/resources/images/snake/apple.png", 32);
 
-        canvasWidth = getCanvas().getWidth();
-        canvasHeight = getCanvas().getHeight();
+        canvasWidth = canvas.getWidth();
+        canvasHeight = canvas.getHeight();
 
-        getCanvas().addEventHandler(KeyEvent.KEY_PRESSED,
+        getGameNode().addEventHandler(KeyEvent.KEY_PRESSED,
             evt -> currentDirection = switch (evt.getCode()) {
                 case UP,W     -> Direction.UP;
                 case DOWN,S   -> Direction.DOWN;
@@ -83,6 +83,8 @@ public class SnakeGame extends Game {
 
         food = new Food(snake.size);
         food.generate();
+
+        snake.grow();
     }
 
     private int counter;
@@ -109,6 +111,11 @@ public class SnakeGame extends Game {
         g.drawImage(apple, food.x, food.y, food.size, food.size);
     }
 
+    @Override
+    public void restart() {
+        init();
+    }
+
     private void drawFilledGrid() {
         Color color1 = Color.rgb(154, 203, 143);
         Color color2 = Color.rgb(163, 191, 115);
@@ -123,7 +130,7 @@ public class SnakeGame extends Game {
 
     private void evaluateCollision() {
         if (snake.getHead().collides(food)) {
-            snake.add();
+            snake.grow();
             food.generate();
         }
 
@@ -309,7 +316,7 @@ public class SnakeGame extends Game {
             }
         }
 
-        public void add() {
+        public void grow() {
             Segment segment = new Segment();
             segment.width = size;
             segment.height = size;
@@ -383,7 +390,7 @@ public class SnakeGame extends Game {
         HORIZONTAL_CELLS = 25;
         VERTICAL_CELLS = 15;
 
-        getCanvas().setWidth(snakeSize * HORIZONTAL_CELLS);
-        getCanvas().setHeight(snakeSize * VERTICAL_CELLS);
+        g.getCanvas().setWidth(snakeSize * HORIZONTAL_CELLS);
+        g.getCanvas().setHeight(snakeSize * VERTICAL_CELLS);
     }
 }
