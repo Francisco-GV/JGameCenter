@@ -1,4 +1,4 @@
-package com.frank.jgamecenter.games.resources;
+package com.frank.jgamecenter.game;
 
 public class Element {
     public double x;
