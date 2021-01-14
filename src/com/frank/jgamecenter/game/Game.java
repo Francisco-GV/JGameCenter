@@ -1,23 +1,19 @@
-package com.frank.jgamecenter.games.resources;
+package com.frank.jgamecenter.game;
 
-import com.frank.jgamecenter.games.SnakeGame;
+import com.frank.jgamecenter.game.games.SnakeGame;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import java.io.InputStream;
 
 public abstract class Game {
     private final String name;
-    private final String description;
-    private final Image thumbnail;
 
     protected Node gameNode;
 
     protected boolean isPaused;
 
-    public Game(String name, String description, Image thumbnail) {
+    public Game(String name) {
         this.name = name;
-        this.description = description;
-        this.thumbnail = thumbnail;
         this.isPaused = false;
     }
 
@@ -35,20 +31,8 @@ public abstract class Game {
         return name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public Image getThumbnail() {
-        return thumbnail;
-    }
-
     public Node getGameNode() {
         return gameNode;
-    }
-
-    protected static Image loadThumbnail(String name) {
-        return new Image(Game.class.getResourceAsStream("/resources/images/thumbnail/" + name), 160, 160, true, true);
     }
 
     protected abstract void init();
