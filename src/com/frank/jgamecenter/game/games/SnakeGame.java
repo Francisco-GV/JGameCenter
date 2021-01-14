@@ -1,7 +1,7 @@
-package com.frank.jgamecenter.games;
+package com.frank.jgamecenter.game.games;
 
-import com.frank.jgamecenter.games.resources.GraphicGame;
-import com.frank.jgamecenter.games.resources.Element;
+import com.frank.jgamecenter.game.GraphicGame;
+import com.frank.jgamecenter.game.Element;
 
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
@@ -92,7 +92,7 @@ public class SnakeGame extends GraphicGame {
     protected void run() {
         if (!stop) {
             changeDirection();
-            int FRAMES = 5;
+            int FRAMES = 7;
             if (counter++ == FRAMES) {
                 counter = 0;
                 snake.move(latestDirection);
@@ -378,18 +378,10 @@ public class SnakeGame extends GraphicGame {
     }
 
     public SnakeGame() {
-        super("Snake", """
-                The player controls a snake that
-                moves around the board. The snake 
-                must try to eat apples that 
-                randomly appear.""",
-                loadThumbnail("snake.png"));
-
+        super("Snake");
         snakeSize = 32.0;
-
         HORIZONTAL_CELLS = 25;
         VERTICAL_CELLS = 15;
-
         g.getCanvas().setWidth(snakeSize * HORIZONTAL_CELLS);
         g.getCanvas().setHeight(snakeSize * VERTICAL_CELLS);
     }
