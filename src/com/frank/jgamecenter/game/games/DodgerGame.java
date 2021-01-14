@@ -1,10 +1,11 @@
-package com.frank.jgamecenter.games;
+package com.frank.jgamecenter.game.games;
 
-import com.frank.jgamecenter.games.resources.Element;
-import com.frank.jgamecenter.games.resources.GraphicGame;
+import com.frank.jgamecenter.game.Element;
+import com.frank.jgamecenter.game.GraphicGame;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.transform.Rotate;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -79,12 +80,6 @@ public class DodgerGame extends GraphicGame {
         obstacleList.add(new Obstacle());
     }
 
-    private void evaluatePosition(Obstacle obstacle) {
-        if (obstacle.y > height) {
-            obstacleList.remove(obstacle);
-        }
-    }
-
     @Override
     public void run() {
         if (!stop) {
@@ -117,7 +112,16 @@ public class DodgerGame extends GraphicGame {
     }
 
     private void drawObstacle(Obstacle obstacle) {
-        g.drawImage(imgObstacle, obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+        double angle = obstacle.angle += obstacle.speed;
+        drawRotatedImage(imgObstacle, angle, obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+    }
+
+    private void drawRotatedImage(Image image, double deg, double x, double y, double width, double height) {
+        g.save();
+        Rotate r = new Rotate(deg, x + width / 2, y + height / 2);
+        g.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
+        g.drawImage(image, x, y, width, height);
+        g.restore();
     }
 
     private void drawHearts() {
@@ -148,9 +152,17 @@ public class DodgerGame extends GraphicGame {
         }
     }
 
+    private void evaluatePosition(Obstacle obstacle) {
+        if (obstacle.y > height) {
+            obstacleList.remove(obstacle);
+        }
+    }
+
     private class Obstacle extends Element {
         public double speed;
         public boolean alreadyCollided;
+        public double rotationSpeed;
+        public double angle;
         public Obstacle() {
             double size = Math.random() * 25 + 25;
             this.x = Math.random() * DodgerGame.this.width;
@@ -158,6 +170,8 @@ public class DodgerGame extends GraphicGame {
             this.width = size;
             this.height = size;
             this.speed = (Math.random() * 2) + 1;
+            this.rotationSpeed = (Math.random() * 3);
+            this.angle = 0;
         }
     }
 
@@ -174,10 +188,7 @@ public class DodgerGame extends GraphicGame {
     }
 
     public DodgerGame() {
-        super("Dodger", """
-                Several asteroids fall from the 
-                top of the screen, and the user 
-                must avoid them.""", loadThumbnail("dodger.png"));
+        super("Dodger");
 
         g.getCanvas().setWidth(900);
         g.getCanvas().setHeight(640);
