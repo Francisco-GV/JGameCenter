@@ -10,6 +10,7 @@
     -fx-text-fill: white;
     -fx-font-family: "Arcade Normal";
     -fx-font-size: 30px;
+    -fx-effect: dropshadow(one-pass-box, #8a2be2, 6, 0.8, 2, 2);
 }
 
 #lbl_author {

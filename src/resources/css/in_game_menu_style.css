@@ -9,8 +9,6 @@
     -fx-font-size: 25pt;
     -fx-font-family: "Arcade Normal";
     -fx-text-fill: white;
-    /*-fx-effect: dropshadow(three-pass-box, #8a2be2, 1, 1, -1, 1),
-     dropshadow(three-pass-box, #33aad6, 1, 1, 2, -1);*/
 }
 
 .button {
