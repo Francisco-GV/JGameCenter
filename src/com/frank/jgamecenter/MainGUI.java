@@ -1,13 +1,16 @@
 package com.frank.jgamecenter;
 
-import com.frank.jgamecenter.games.resources.Game;
+import com.frank.jgamecenter.game.Game;
 
+import com.frank.jgamecenter.game.GameInitializer;
+import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
@@ -29,6 +32,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 import javax.imageio.ImageIO;
@@ -38,6 +42,7 @@ import java.io.InputStream;
 import java.util.Date;
 
 public class MainGUI {
+    @FXML private Parent topTitleBox;
     @FXML private AnchorPane mainMenuPane;
     @FXML private FlowPane gamesListContainer;
 
@@ -47,8 +52,8 @@ public class MainGUI {
     private Node inGameMenu;
 
     @FXML private void initialize() throws IOException {
-        for (Game game : JGameCenter.getInstance().getGameList()) {
-            gamesListContainer.getChildren().add(createGameElement(game));
+        for (GameInitializer initializer : JGameCenter.getInstance().getGameList()) {
+            gamesListContainer.getChildren().add(createGameElement(initializer));
         }
     }
 
@@ -63,9 +68,17 @@ public class MainGUI {
         this.mainMenuScene = scene;
     }
 
-    private Region createGameElement(Game game) throws IOException {
+    public void initializeEffects() {
+        FadeTransition fadeTransition = new FadeTransition(Duration.millis(1500), topTitleBox);
+        fadeTransition.setFromValue(0.0);
+        fadeTransition.setToValue(1.0);
+
+        primaryStage.addEventHandler(WindowEvent.WINDOW_SHOWING, evt -> fadeTransition.play());
+    }
+
+    private Region createGameElement(GameInitializer initializer) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/fxml/game_element.fxml"));
-        loader.setController(new GameElement(game));
+        loader.setController(new GameElement(initializer));
         return loader.load();
     }
 
@@ -81,6 +94,7 @@ public class MainGUI {
         gameContainer.setAlignment(Pos.CENTER);
 
         Node gameNode = game.getGameNode();
+
         gameNode.setFocusTraversable(true);
         gameNode.requestFocus();
 
@@ -101,6 +115,7 @@ public class MainGUI {
                 });
             } else if (evt.getCode() == KeyCode.F5) {
                 takeSnapshot(gameNode);
+                System.out.println("Snapshot taked");
             }
         });
 
@@ -112,6 +127,7 @@ public class MainGUI {
 
     private void changeToMenu() {
         Platform.runLater(() -> {
+            primaryStage.setTitle(JGameCenter.APP_TITLE);
             primaryStage.setScene(mainMenuScene);
             primaryStage.centerOnScreen();
             gameContainer = null;
@@ -136,10 +152,10 @@ public class MainGUI {
         @FXML private Pane root;
         @FXML private Label lblAbout;
 
-        private final Game game;
+        private final GameInitializer initializer;
 
-        public GameElement(Game game) {
-            this.game = game;
+        public GameElement(GameInitializer initializer) {
+            this.initializer = initializer;
         }
 
         @FXML private void initialize() {
@@ -151,23 +167,28 @@ public class MainGUI {
                 }
             });
 
-            lblTitle.setText(game.getName());
-            Tooltip tooltip = new Tooltip(game.getDescription());
+            lblTitle.setText((String) initializer.getData("title", "Unknown title"));
+            Tooltip tooltip = new Tooltip((String) initializer.getData("description", "Without description"));
             tooltip.setShowDelay(Duration.millis(10));
             tooltip.setShowDuration(Duration.INDEFINITE);
             lblAbout.setTooltip(tooltip);
 
-            if (game.getThumbnail() != null) {
-                createThumbnail(root, game.getThumbnail());
+            Image thumbnail = (Image) initializer.getData("thumbnail", null);
+            if (thumbnail != null) {
+                createThumbnail(root, thumbnail);
             } else {
                 createThumbnail(root);
             }
         }
 
         @FXML private void start() throws IOException {
-            changeToGame(game);
-            primaryStage.setTitle(JGameCenter.APP_TITLE + " - " + game.getName());
-            game.start();
+            Game newGame = initializer.createInstance();
+
+            if (newGame != null) {
+                changeToGame(newGame);
+                primaryStage.setTitle(JGameCenter.APP_TITLE + " - " + initializer.getData("title", "unknown"));
+                newGame.start();
+            }
         }
 
         private void createThumbnail(Region root, Image image) {
