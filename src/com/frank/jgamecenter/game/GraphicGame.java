@@ -1,9 +1,8 @@
-package com.frank.jgamecenter.games.resources;
+package com.frank.jgamecenter.game;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 
 public abstract class GraphicGame extends Game {
 
@@ -11,8 +10,8 @@ public abstract class GraphicGame extends Game {
     protected final GraphicsContext g;
     private final AnimationTimer animationTimer;
 
-    public GraphicGame(String name, String description, Image thumbnail) {
-        super(name, description, thumbnail);
+    public GraphicGame(String name) {
+        super(name);
 
         this.gameNode = new Canvas(640, 640);
         canvas = (Canvas) gameNode;
