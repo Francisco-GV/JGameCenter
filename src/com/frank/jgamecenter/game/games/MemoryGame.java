@@ -102,19 +102,6 @@ public class MemoryGame extends Game {
 
     }
 
-    public MemoryGame() {
-        super("Memory");
-
-        this.gameNode = new FlowPane();
-        cardsContainer = (FlowPane) this.gameNode;
-        cardsContainer.setPrefSize(850, 600);
-        cardsContainer.setAlignment(Pos.CENTER);
-        cardsContainer.setHgap(15);
-        cardsContainer.setVgap(15);
-
-
-    }
-
     public Card loadCard() throws IOException {
         int index;
         do {
@@ -173,8 +160,20 @@ public class MemoryGame extends Game {
         return cardElement;
     }
 
+    public MemoryGame() {
+        super("Memory");
+
+        this.gameNode = new FlowPane();
+        cardsContainer = (FlowPane) this.gameNode;
+        cardsContainer.setPrefSize(850, 600);
+        cardsContainer.setAlignment(Pos.CENTER);
+        cardsContainer.setHgap(15);
+        cardsContainer.setVgap(15);
+    }
+
     @SuppressWarnings("unused")
     private static class Card {
+
         @FXML private Pane root;
         @FXML private Label lblCenterImage;
 
@@ -225,7 +224,6 @@ public class MemoryGame extends Game {
                     rotate(root.getRotate(), 180);
                 }
             });
-//            root.setOnMouseReleased(e -> rotate(root.getRotate(), 0));
         }
 
         public void scale(double fromX, double fromY, double toX, double toY) {
