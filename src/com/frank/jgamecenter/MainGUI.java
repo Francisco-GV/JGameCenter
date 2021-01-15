@@ -113,9 +113,8 @@ public class MainGUI {
                     inGameMenu.setVisible(true);
                     inGameMenu.requestFocus();
                 });
-            } else if (evt.getCode() == KeyCode.F5) {
+            } else if (evt.getCode() == KeyCode.F12) {
                 takeSnapshot(gameNode);
-                System.out.println("Snapshot taked");
             }
         });
 
@@ -135,15 +134,27 @@ public class MainGUI {
     }
 
     private void takeSnapshot(Node gameNode) {
-        WritableImage image = gameNode.snapshot(new SnapshotParameters(), null);
-
-        File directory = new File(System.getProperty("user.home"));
-        File output = new File(directory.getAbsolutePath() + "/desktop/snapshot" + new Date().getTime() + ".png");
-        try {
-            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", output);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Platform.runLater(() -> {
+            WritableImage image = gameNode.snapshot(new SnapshotParameters(), null);
+            new Thread(() -> {
+                File directory = new File(System.getProperty("user.home").concat("\\Documents").concat("\\JGameCenter screenshots"));
+                boolean directoryExists = true;
+                if (!directory.exists()) {
+                    directoryExists = directory.mkdirs();
+                }
+                if (directoryExists) {
+                    File output = new File(directory.getAbsolutePath() + "\\snapshot" + new Date().getTime() + ".png");
+                    try {
+                        ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", output);
+                        System.out.println("A screenshot was taken");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    System.err.println("Screenshots directory do not exists and could not be created");
+                }
+            }).start();
+        });
     }
 
     @SuppressWarnings("unused")
