@@ -19,6 +19,9 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -48,8 +51,12 @@ public class MemoryGame extends Game {
 
     @Override
     protected void init() {
-        BackgroundFill fill = new BackgroundFill(Color.rgb(120, 90, 65), null, null);
-
+        Stop[] stops = new Stop[] {
+                new Stop(0, Color.web("#000000")),
+                new Stop(1, Color.web("#434343"))
+        };
+        LinearGradient gradient = new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE, stops);
+        BackgroundFill fill = new BackgroundFill(gradient, null, null);
         cardsContainer.setBackground(new Background(fill));
 
         int numberOfPairs = 6;
@@ -132,6 +139,7 @@ public class MemoryGame extends Game {
                     cardSelected = card;
                 } else {
                     if (cardSelected != card) {
+                        long delay;
                         TimerTask task;
                         if (card == cardSelected.pair) {
                             task = new TimerTask() {
@@ -142,6 +150,7 @@ public class MemoryGame extends Game {
                                     cardSelected = null;
                                 }
                             };
+                            delay = 300L;
                         } else {
                             task = new TimerTask() {
                                 @Override
@@ -153,8 +162,9 @@ public class MemoryGame extends Game {
                                     });
                                 }
                             };
+                            delay = 750L;
                         }
-                        new Timer(true).schedule(task, 1000);
+                        new Timer(true).schedule(task, delay);
                     }
                 }
             }
@@ -203,7 +213,7 @@ public class MemoryGame extends Game {
             });
 
             scaleTransition = new ScaleTransition(Duration.millis(100), root);
-            rotateTransition = new RotateTransition(Duration.millis(500), root);
+            rotateTransition = new RotateTransition(Duration.millis(300), root);
 
             rotateTransition.setAxis(root.getRotationAxis());
 
