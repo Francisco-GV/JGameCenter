@@ -9,5 +9,5 @@
       <String fx:value="card" />
       <String fx:value="back" />
    </styleClass>
-   <Label id="center_image" fx:id="lblCenterImage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="60.0" StackPane.alignment="CENTER" />
+   <Label id="center_image" fx:id="lblCenterImage" alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="60.0" StackPane.alignment="CENTER" />
 </StackPane>
