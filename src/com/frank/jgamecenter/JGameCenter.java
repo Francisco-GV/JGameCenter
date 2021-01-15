@@ -30,7 +30,7 @@ public class JGameCenter extends Application {
             The player controls a snake that
             moves around the board. The snake
             must try to eat apples that 
-            randomly appear.""",
+            randomly appear without eat itself.""",
             GameInitializer.loadThumbnail("snake.png")));
 
         addNewGame(DodgerGame.class, createData("Dodger", """
@@ -42,9 +42,9 @@ public class JGameCenter extends Application {
         addNewGame(MemoryGame.class, createData("Memory","""
             A board full of overturned cards.
             There is a pair for each card.
-            The player needs to overturn all
-            the cards.""",
-            null));
+            The player needs to find all
+            the pairs to win.""",
+            GameInitializer.loadThumbnail("memory.png")));
 
     }
 
