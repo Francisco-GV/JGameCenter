@@ -46,6 +46,17 @@ public class JGameCenter extends Application {
             the pairs to win.""",
             GameInitializer.loadThumbnail("memory.png")));
 
+        addNewGame(FlappyBirdGame.class, createData("Flappy\nBird", """
+            The player controls a bird, attempting 
+            to fly between columns of green pipes 
+            without hitting them.""",
+            GameInitializer.loadThumbnail("flappyBird.png")));
+
+        addNewGame(RoadDodgerGame.class, createData("Road\nDodger", """
+            You are a hurry driver who has to pass 
+            through the other vehicles without 
+            colliding.""",
+            null));
     }
 
     private Map<String, Object> createData(String title, String description, Image thumbnail) {
