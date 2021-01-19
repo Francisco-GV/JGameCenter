@@ -3,6 +3,8 @@ package com.frank.jgamecenter.game;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.transform.Rotate;
 
 public abstract class GraphicGame extends Game {
 
@@ -39,13 +41,20 @@ public abstract class GraphicGame extends Game {
         animationTimer.start();
     }
 
-    @Override public void stop() {
+    @Override
+    public void stop() {
         animationTimer.stop();
-        restart();
     }
-
 
     protected void refresh() {
         g.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    }
+
+    protected void drawRotatedImage(Image image, double x, double y, double width, double height, int deg) {
+        g.save();
+        Rotate r = new Rotate(deg, x + width / 2, y + height / 2);
+        g.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
+        g.drawImage(image, x, y, width, height);
+        g.restore();
     }
 }
