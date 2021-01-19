@@ -16,9 +16,14 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
+import javafx.scene.effect.Blend;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -59,8 +64,11 @@ public class MainGUI {
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        primaryStage.sceneProperty().addListener(
-                (obs, old, newScene) -> primaryStage.setResizable(newScene.getRoot() == mainMenuPane)
+        primaryStage.sceneProperty().addListener((obs1, old1, newScene) -> {
+                if (newScene != null) {
+                    primaryStage.setResizable(newScene.getRoot() == mainMenuPane);
+                }
+            }
         );
     }
 
@@ -105,15 +113,26 @@ public class MainGUI {
         gameContainer.getChildren().add(0, gameNode);
         gameContainer.getChildren().add(1, inGameMenu);
 
-        gameNode.setOnKeyReleased(evt -> {
+        gameNode.addEventHandler(KeyEvent.KEY_RELEASED, evt -> {
             if (evt.getCode() == KeyCode.ESCAPE || evt.getCode() == KeyCode.P) {
                 game.setPause(true);
                 Platform.runLater(() -> {
                     inGameMenu.setDisable(false);
                     inGameMenu.setVisible(true);
                     inGameMenu.requestFocus();
+                    GaussianBlur gaussianBlur = new GaussianBlur(10);
+                    ColorAdjust colorAdjust = new ColorAdjust();
+                    colorAdjust.setBrightness(-0.5);
+                    colorAdjust.setSaturation(-0.5);
+                    colorAdjust.setContrast(-0.5);
+
+                    Blend blend = new Blend();
+                    blend.setMode(BlendMode.SRC_OVER);
+                    blend.setTopInput(gaussianBlur);
+                    blend.setBottomInput(colorAdjust);
+                    gameNode.setEffect(blend);
                 });
-            } else if (evt.getCode() == KeyCode.F12) {
+            }else if (evt.getCode() == KeyCode.F12) {
                 takeSnapshot(gameNode);
             }
         });
@@ -264,6 +283,7 @@ public class MainGUI {
             inGameMenu.setVisible(false);
 
             Node gameNode = gameContainer.getChildren().get(0);
+            gameNode.setEffect(null);
             gameNode.requestFocus();
         }
 
