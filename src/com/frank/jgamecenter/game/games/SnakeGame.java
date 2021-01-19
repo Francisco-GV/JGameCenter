@@ -111,11 +111,6 @@ public class SnakeGame extends GraphicGame {
         g.drawImage(apple, food.x, food.y, food.size, food.size);
     }
 
-    @Override
-    public void restart() {
-        init();
-    }
-
     private void drawFilledGrid() {
         Color color1 = Color.rgb(154, 203, 143);
         Color color2 = Color.rgb(163, 191, 115);
@@ -173,10 +168,10 @@ public class SnakeGame extends GraphicGame {
         if (index == 0) {
             image = (stop) ? snakeDead : (snake.body.size() == 1) ? snakeZero : snakeHead;
             switch (direction) {
-                case UP     -> rotateImage(image, currentSegment.x, currentSegment.y, 0);
-                case DOWN   -> rotateImage(image, currentSegment.x + snake.size, currentSegment.y + snake.size, 180);
-                case LEFT   -> rotateImage(image, currentSegment.x, currentSegment.y + snake.size, 270);
-                case RIGHT  -> rotateImage(image, currentSegment.x + snake.size, currentSegment.y, 90);
+                case UP     -> drawRotatedImage(image, currentSegment.x, currentSegment.y, 0);
+                case DOWN   -> drawRotatedImage(image, currentSegment.x + snake.size, currentSegment.y + snake.size, 180);
+                case LEFT   -> drawRotatedImage(image, currentSegment.x, currentSegment.y + snake.size, 270);
+                case RIGHT  -> drawRotatedImage(image, currentSegment.x + snake.size, currentSegment.y, 90);
             }
 
         } else {
@@ -207,15 +202,15 @@ public class SnakeGame extends GraphicGame {
             }
 
             switch (deg) {
-                case 0      -> rotateImage(image, currentSegment.x, currentSegment.y, 0);
-                case 180    -> rotateImage(image, currentSegment.x + snake.size, currentSegment.y + snake.size, 180);
-                case 270    -> rotateImage(image, currentSegment.x, currentSegment.y + snake.size, 270);
-                case 90     -> rotateImage(image, currentSegment.x + snake.size, currentSegment.y, 90);
+                case 0      -> drawRotatedImage(image, currentSegment.x, currentSegment.y, 0);
+                case 180    -> drawRotatedImage(image, currentSegment.x + snake.size, currentSegment.y + snake.size, 180);
+                case 270    -> drawRotatedImage(image, currentSegment.x, currentSegment.y + snake.size, 270);
+                case 90     -> drawRotatedImage(image, currentSegment.x + snake.size, currentSegment.y, 90);
             }
         }
     }
 
-    private void rotateImage(Image image, double x, double y, int deg) {
+    private void drawRotatedImage(Image image, double x, double y, int deg) {
         g.save();
         Rotate r = new Rotate(deg, x, y);
         g.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());

@@ -1,6 +1,6 @@
 package com.frank.jgamecenter.game.games;
 
-import com.frank.jgamecenter.game.Game;
+import com.frank.jgamecenter.game.UserInterfaceGame;
 import javafx.animation.RotateTransition;
 import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MemoryGame extends Game {
+public class MemoryGame extends UserInterfaceGame {
     private Card cardSelected;
     private final FlowPane cardsContainer;
 
@@ -90,16 +90,6 @@ public class MemoryGame extends Game {
     @Override
     public void start() {
         init();
-    }
-
-    @Override
-    public void restart() {
-        start();
-    }
-
-    @Override
-    public void stop() {
-
     }
 
     public Card loadCard() throws IOException {
