@@ -71,11 +71,6 @@ public class DodgerGame extends GraphicGame {
         imgObstacle     = loadImage("/resources/images/dodger/asteroid.png", 64);
     }
 
-    @Override
-    public void restart() {
-        init();
-    }
-
     private void generateObstacle() {
         obstacleList.add(new Obstacle());
     }
