@@ -22,9 +22,14 @@ public abstract class Game {
         return new Image(inputStream, 0, 0, true, true);
     }
 
-    public static Image loadImage(String path, int size) {
+    public static Image loadImage(String path, double size) {
         InputStream inputStream = SnakeGame.class.getResourceAsStream(path);
         return new Image(inputStream, size, size, true, true);
+    }
+
+    public static Image loadImage(String path, double width, double height) {
+        InputStream inputStream = SnakeGame.class.getResourceAsStream(path);
+        return new Image(inputStream, width, height, true, true);
     }
 
     public String getName() {
@@ -35,9 +40,11 @@ public abstract class Game {
         return gameNode;
     }
 
+    public void restart() {
+        init();
+    }
     protected abstract void init();
     public abstract void start();
-    public abstract void restart();
     public abstract void stop();
 
     public void setPause(boolean pause) {
